@@ -1,0 +1,51 @@
+# Development test
+
+## Goal
+Create a list of solved questions using React and StrataScratch API.
+
+## How to use API
+1. Register on https://platform.stratascratch.com/
+2. Login
+3. Open developer console and run `console.log(localStorage.system_user_logged)`.
+That is your Token that you need to put to every query as Authorization header in a format:
+
+`Authorization: Token {your_token}`
+
+## Retrieve questions
+`
+curl -X GET https://api.stratascratch.com/questions/\?page\=1\&page_size\=5\&module\=57 -H 'Authorization: Token {token}'
+`
+
+Accepts pagination parameters and module ID. Without page parameter returns all questions
+
+Important fields for the task:
+- id
+- question_short
+- is_correct_solution -- shows if authenticated user submitted correct solution. Can take values of:
+    - null -- no attempts
+    - false -- failed or incorrect attempt
+    - true -- question solved by user.
+NOTE: it does not return module_id.
+
+## Retrieve modules
+`
+curl -X GET https://api.stratascratch.com/modules/ -H 'Authorization: Token {token}'
+`
+Important fields for the task:
+- id
+- name
+Always returns a list with all educational modules.
+
+## Create solution attempts
+1. Open https://platform.stratascratch.com/#/practice-questions?module_id=56 (freemium module)
+2. Open any question from that module
+3. Submit some SQL code
+4. Make sure to submit some correct solutions from a 'Solution' tab of a question
+
+## Deliverables
+1. React application that returns list of attempted questions with their solved / incorrect statuses
+2. Every list entry must contain question short body `question_short` and solution status
+3. List must be filterable by Module. There must be a select input with All educational modules
+and list of solutions must be refreshed without page reloading with filtered questions
+4. List must be filterable by correct / incorrect solution status
+5. UI must be neat, well-aligned and easy to understand without instructions
